@@ -1,0 +1,17 @@
+{
+  "name": "cyfrin",
+  "version": "1.0.0",
+  "description": "## Solidity fundamentals 1. Simple Storage 2. Storage Factory",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@chainlink/contracts": "^0.8.0"
+  },
+  "devDependencies": {
+    "solc": "^0.8.19"
+  }
+}
