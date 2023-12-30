@@ -6,16 +6,19 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/Ag
 
 contract FundMe {
     uint256 minUsdAmount = 5e18;
+    mapping(address funder => uint256 amountFunded)
+        public addressToAmountFunded;
 
     function fund() public payable {
         require(
             getConversionRate(msg.value) >= minUsdAmount,
             "Didn't send enough ETH"
         );
+        addressToAmountFunded[msg.sender] += msg.value;
     }
 
     function getPrice() public view returns (uint256) {
-        // Address: 0x694AA1769357215DE4FAC081bf1f309aDC325306
+        // Price feed address for ETH / USD in Sepolia: 0x694AA1769357215DE4FAC081bf1f309aDC325306
         AggregatorV3Interface priceFeed = AggregatorV3Interface(
             0x694AA1769357215DE4FAC081bf1f309aDC325306
         );
