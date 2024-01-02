@@ -12,6 +12,12 @@ contract FundMe {
     mapping(address funder => uint256 amountFunded)
         public addressToAmountFunded;
 
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
     function fund() public payable {
         require(
             msg.value.getConversionRate() >= minUsdAmount,
@@ -21,6 +27,7 @@ contract FundMe {
     }
 
     function withdraw() public {
+        require(msg.sender == owner, "Must be owner");
         uint256 amountToWithdraw = addressToAmountFunded[msg.sender];
         addressToAmountFunded[msg.sender] = 0;
 
