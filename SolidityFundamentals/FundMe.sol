@@ -4,18 +4,20 @@ pragma solidity 0.8.19;
 
 import {PriceConverter} from "./PriceConverter.sol";
 
+error NotOwner();
+
 contract FundMe {
     using PriceConverter for uint256;
 
-    uint256 constant MINIMUM_USD = 5e18;
+    uint256 public constant MINIMUM_USD = 5e18;
 
     mapping(address funder => uint256 amountFunded)
         public addressToAmountFunded;
 
-    address public owner;
+    address public immutable i_owner;
 
     constructor() {
-        owner = msg.sender;
+        i_owner = msg.sender;
     }
 
     function fund() public payable {
@@ -47,7 +49,11 @@ contract FundMe {
     }
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "Must be owner");
+        // the code below is not gas efficient
+        // require(msg.sender == i_owner, "Must be owner");
+        if (msg.sender != i_owner) {
+            revert NotOwner();
+        }
         _;
     }
 }
